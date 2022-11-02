@@ -16,7 +16,7 @@ struct LinkedList<T> {
     }
     
     mutating func addLast(_ element: T) {
-        let newNode: Node<T> = Node(data: element)
+        let newNode = Node(data: element)
         guard let last = tail else {
             head = newNode
             tail = newNode
