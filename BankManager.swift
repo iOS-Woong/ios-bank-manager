@@ -4,4 +4,17 @@
 //  Copyright © yagom academy. All rights reserved.
 //
 
-import Foundation
+struct BankManager {
+    private var bank: Bank = Bank()
+    
+    mutating func addCustomers(count: Int) {
+        for number in 1...count {
+            let customer: Customer = Customer(number: number)
+            bank.addCustomerToCustomerQueue(customer)
+        }
+    }
+    
+    mutating func startBank() {
+        bank.processCustomersInQueue()
+    }
+}
