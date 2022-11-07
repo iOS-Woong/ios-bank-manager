@@ -39,7 +39,7 @@ struct Bank {
                 }
                 banker.processBankingBusiness(of: customer)
                 self.processedCustomerNumber += 1
-                self.processedTotalTime += banker.processingTimePerCustomer
+                self.processedTotalTime += banker.business.processingTimePerCustomer
             }
         }
         printClosingMessage()
