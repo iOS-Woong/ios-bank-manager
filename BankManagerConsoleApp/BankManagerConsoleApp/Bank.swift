@@ -42,8 +42,8 @@ class Bank {
     
     func processBankingBusinessOfCustomers() {
         startTime = Date()
-        let depositSemaphore = DispatchSemaphore(value: 2)
-        let loanSemaphore = DispatchSemaphore(value: 1)
+        let depositSemaphore = DispatchSemaphore(value: depositBankers.count)
+        let loanSemaphore = DispatchSemaphore(value: loanBankers.count)
         let group = DispatchGroup()
         while self.customerQueue.isEmpty == false {
             guard let customer = self.customerQueue.dequeue() else { break }
