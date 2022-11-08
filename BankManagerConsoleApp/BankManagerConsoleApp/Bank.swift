@@ -7,21 +7,29 @@
 
 import Foundation
 
-struct Bank {
+class Bank {
     private var customerQueue: Queue<Customer> = Queue()
+    private var depositBankers: Queue<Banker> = Queue()
+    private var loanBankers: Queue<Banker> = Queue()
     private var bankers: [Banker] = []
     private var processedCustomerNumber: Int = 0
     private var processedTotalTime: Double = 0
     
-    mutating func addCustomerToQueue(_ customer: Customer) {
+    func addCustomerToQueue(_ customer: Customer) {
         customerQueue.enqueue(customer)
     }
     
-    mutating func addBanker(_ banker: Banker) {
+    func addBanker(_ banker: Banker) {
+        switch banker.business {
+        case .deposit:
+            depositBankers.enqueue(banker)
+        case .loan:
+            loanBankers.enqueue(banker)
+        }
         bankers.append(banker)
     }
     
-    private mutating func printClosingMessage() {
+    private func printClosingMessage() {
         let numberFormatter: NumberFormatter = NumberFormatter()
         numberFormatter.minimumFractionDigits = 2
         guard let formattedProcessedTotalTime: String = numberFormatter.string(from: NSNumber(value: processedTotalTime)) else {
@@ -31,17 +39,36 @@ struct Bank {
         print(processingClosedMessage)
     }
     
-    mutating func processBankingBusinessOfCustomers() {
-        while customerQueue.isEmpty == false {
-            for banker in bankers {
-                guard let customer = customerQueue.dequeue() else {
-                    break
+    func processBankingBusinessOfCustomers() {
+        let pickDepositBankerQueue = DispatchQueue(label: "PickDepositBankerQueue")
+        let pickLoanBankerQueue = DispatchQueue(label: "PickLoanBankerQueue")
+        let group = DispatchGroup()
+        while self.customerQueue.isEmpty == false {
+            guard let customer = self.customerQueue.dequeue() else { break }
+            DispatchQueue.global().async(group: group) {
+                switch customer.business {
+                case .deposit:
+                    pickDepositBankerQueue.sync {
+                        if let banker = self.depositBankers.dequeue() {
+                            banker.processBankingBusiness(of: customer)
+                            self.depositBankers.enqueue(banker)
+                            self.processedCustomerNumber += 1
+                            self.processedTotalTime += banker.business.processingTimePerCustomer
+                        }
+                    }
+                case .loan:
+                    pickLoanBankerQueue.sync {
+                        if let banker = self.loanBankers.dequeue() {
+                            banker.processBankingBusiness(of: customer)
+                            self.loanBankers.enqueue(banker)
+                            self.processedCustomerNumber += 1
+                            self.processedTotalTime += banker.business.processingTimePerCustomer
+                        }
+                    }
                 }
-                banker.processBankingBusiness(of: customer)
-                self.processedCustomerNumber += 1
-                self.processedTotalTime += banker.business.processingTimePerCustomer
             }
+            group.wait()
+            self.printClosingMessage()
         }
-        printClosingMessage()
     }
 }

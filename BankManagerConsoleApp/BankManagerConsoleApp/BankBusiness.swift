@@ -21,9 +21,9 @@ enum BankBusiness: Int {
     var description: String {
         switch self {
         case .deposit:
-            return "대출"
-        case .loan:
             return "예금"
+        case .loan:
+            return "대출"
         }
     }
 }
