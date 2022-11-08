@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C7694E7A259C3EC00053667F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7694E79259C3EC00053667F /* main.swift */; };
+		D24B06192919F2DF00064009 /* BankBusiness.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24B06182919F2DE00064009 /* BankBusiness.swift */; };
 		D29463162913CD6200B00016 /* Banker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29463152913CD6200B00016 /* Banker.swift */; };
 		D29463182913DE7B00B00016 /* BankManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29463172913DE7B00B00016 /* BankManager.swift */; };
 		D294631A2913E0AF00B00016 /* ConsoleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29463192913E0AF00B00016 /* ConsoleApp.swift */; };
@@ -38,6 +39,7 @@
 /* Begin PBXFileReference section */
 		C7694E76259C3EC00053667F /* BankManagerConsoleApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BankManagerConsoleApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7694E79259C3EC00053667F /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D24B06182919F2DE00064009 /* BankBusiness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankBusiness.swift; sourceTree = "<group>"; };
 		D29463152913CD6200B00016 /* Banker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banker.swift; sourceTree = "<group>"; };
 		D29463172913DE7B00B00016 /* BankManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankManager.swift; sourceTree = "<group>"; };
 		D29463192913E0AF00B00016 /* ConsoleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleApp.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				D2C159312910B130005C15C5 /* Queue.swift */,
 				EBC3E38B2913CAA90080462F /* Customer.swift */,
 				D29463152913CD6200B00016 /* Banker.swift */,
+				D24B06182919F2DE00064009 /* BankBusiness.swift */,
 			);
 			path = BankManagerConsoleApp;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 				EBC3E38C2913CAA90080462F /* Customer.swift in Sources */,
 				EB413A1C2910B00800B3A432 /* LinkedList.swift in Sources */,
 				D294631A2913E0AF00B00016 /* ConsoleApp.swift in Sources */,
+				D24B06192919F2DF00064009 /* BankBusiness.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
