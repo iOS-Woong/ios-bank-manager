@@ -14,8 +14,9 @@ struct BankManager {
         }
     }
     
-    mutating func addBankers(count: Int) {
-        for banker in Array.init(repeating: Banker(), count: count) {
+    mutating func addBankers(bankBusiness: BankBusiness, count: Int) {
+        let banker: Banker = Banker(service: bankBusiness)
+        for _ in 0...count {
             bank.addBanker(banker)
         }
     }
