@@ -4,25 +4,28 @@
 //  Copyright © yagom academy. All rights reserved.
 //
 
+import Foundation
+
 struct BankManager {
     private var bank: Bank = Bank()
     
     mutating func addCustomers(count: Int) {
         for customerNumber in 1...count {
-            let customer: Customer = Customer(number: customerNumber)
+            guard let randomBankBusiness: BankBusiness = BankBusiness.allCases.randomElement() else { return }
+            let customer: Customer = Customer(number: customerNumber, wantService: randomBankBusiness)
             bank.addCustomerToQueue(customer)
         }
     }
     
     mutating func addBankers(bankBusiness: BankBusiness, count: Int) {
-        let banker: Banker = Banker(service: bankBusiness)
-        for _ in 0...count {
+        for i in 0...count {
+            let banker: Banker = Banker(number: i, service: bankBusiness)
             bank.addBanker(banker)
         }
     }
     
     mutating func startBank() {
-        bank.startBankBusiness()
+        bank.비동기startBankBusiness()
     }
     
     mutating func reset() {

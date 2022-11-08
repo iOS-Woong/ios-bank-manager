@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum BankBusiness: Double {
+enum BankBusiness: Double, CaseIterable {
     case deposit = 0.7
     case loan = 1.1
     
