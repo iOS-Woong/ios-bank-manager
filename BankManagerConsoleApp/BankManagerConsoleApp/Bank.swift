@@ -11,7 +11,6 @@ struct Bank {
     private var customerQueue: Queue<Customer> = Queue()
     private var depositBankerQueue: Queue<Banker> = Queue()
     private var loanBankerQueue: Queue<Banker> = Queue()
-    private var bankers: [Banker] = []
     private var totalCustomerNumber: Int = 0
     private var totalTime: Double = 0
     private var formattedProcessedTotalTime: String {
@@ -29,7 +28,6 @@ struct Bank {
         case .loan:
             loanBankerQueue.enqueue(banker)
         }
-        bankers.append(banker)
     }
     
     private mutating func printClosingMessage() {
@@ -38,14 +36,21 @@ struct Bank {
     }
     
     mutating func startBankBusiness() {
-        while customerQueue.isEmpty == false {
-            for banker in bankers {
-                guard let customer = customerQueue.dequeue() else {
-                    break
-                }
+        while customerQueue.isEmpty != true {
+            guard let customer: Customer = customerQueue.dequeue() else { return }
+            switch customer.bankBusiness {
+            case .deposit:
+                guard let banker: Banker = depositBankerQueue.dequeue() else { return }
                 banker.processBankingBusiness(of: customer)
-                self.totalCustomerNumber += 1
-                self.totalTime += banker.processingTimePerCustomer
+                totalCustomerNumber += 1
+                totalTime += BankBusiness.deposit.processingTimePerCustomer
+                depositBankerQueue.enqueue(banker)
+            case .loan:
+                guard let banker: Banker = loanBankerQueue.dequeue() else { return }
+                banker.processBankingBusiness(of: customer)
+                totalCustomerNumber += 1
+                totalTime += BankBusiness.loan.processingTimePerCustomer
+                loanBankerQueue.enqueue(banker)
             }
         }
         printClosingMessage()
