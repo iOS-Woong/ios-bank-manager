@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Bank {
+class Bank {
     private var customerQueue: Queue<Customer> = Queue()
     private var depositBankerQueue: Queue<Banker> = Queue()
     private var loanBankerQueue: Queue<Banker> = Queue()
@@ -17,11 +17,11 @@ struct Bank {
         return String(format: "%.2f", totalTime)
     }
     
-    mutating func addCustomerToQueue(_ customer: Customer) {
+    func addCustomerToQueue(_ customer: Customer) {
         customerQueue.enqueue(customer)
     }
     
-    mutating func addBanker(_ banker: Banker) {
+    func addBanker(_ banker: Banker) {
         switch banker.bankBusiness {
         case .deposit:
             depositBankerQueue.enqueue(banker)
@@ -30,29 +30,41 @@ struct Bank {
         }
     }
     
-    private mutating func printClosingMessage() {
+    private func printClosingMessage() {
         let processingClosedMessage: String = "업무가 마감되었습니다. 오늘 업무를 처리한 고객은 총 \(totalCustomerNumber)명이며, 총 업무시간은 \(formattedProcessedTotalTime)초입니다."
         print(processingClosedMessage)
     }
     
-    mutating func startBankBusiness() {
+    func startBankBusiness() {
+        let depositSemaphore: DispatchSemaphore = DispatchSemaphore(value: depositBankerQueue.count)
+        let loanSemaphore: DispatchSemaphore = DispatchSemaphore(value: loanBankerQueue.count)
+        let group: DispatchGroup = DispatchGroup()
         while customerQueue.isEmpty != true {
             guard let customer: Customer = customerQueue.dequeue() else { return }
             switch customer.bankBusiness {
             case .deposit:
-                guard let banker: Banker = depositBankerQueue.dequeue() else { return }
-                banker.processBankingBusiness(of: customer)
-                totalCustomerNumber += 1
-                totalTime += BankBusiness.deposit.processingTimePerCustomer
-                depositBankerQueue.enqueue(banker)
+                DispatchQueue.global().async(group: group) {
+                    depositSemaphore.wait()
+                    guard let banker: Banker = self.depositBankerQueue.dequeue() else { return }
+                    banker.processBankingBusiness(of: customer)
+                    self.totalCustomerNumber += 1
+                    self.totalTime += BankBusiness.deposit.processingTimePerCustomer
+                    self.depositBankerQueue.enqueue(banker)
+                    depositSemaphore.signal()
+                }
             case .loan:
-                guard let banker: Banker = loanBankerQueue.dequeue() else { return }
-                banker.processBankingBusiness(of: customer)
-                totalCustomerNumber += 1
-                totalTime += BankBusiness.loan.processingTimePerCustomer
-                loanBankerQueue.enqueue(banker)
+                DispatchQueue.global().async(group: group) {
+                    loanSemaphore.wait()
+                    guard let banker: Banker = self.loanBankerQueue.dequeue() else { return }
+                    banker.processBankingBusiness(of: customer)
+                    self.totalCustomerNumber += 1
+                    self.totalTime += BankBusiness.loan.processingTimePerCustomer
+                    self.loanBankerQueue.enqueue(banker)
+                    loanSemaphore.signal()
+                }
             }
         }
+        group.wait()
         printClosingMessage()
     }
 }
