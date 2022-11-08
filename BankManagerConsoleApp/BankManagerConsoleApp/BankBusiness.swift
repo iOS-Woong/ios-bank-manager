@@ -12,9 +12,9 @@ enum BankBusiness: Int {
     var processingTimePerCustomer: Double {
         switch self {
         case .deposit:
-            return 1.1
-        case .loan:
             return 0.7
+        case .loan:
+            return 1.1
         }
     }
     
