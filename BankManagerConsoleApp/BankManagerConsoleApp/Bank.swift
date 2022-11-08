@@ -9,6 +9,8 @@ import Foundation
 
 struct Bank {
     private var customerQueue: Queue<Customer> = Queue()
+    private var depositBankerQueue: Queue<Banker> = Queue()
+    private var loanBankerQueue: Queue<Banker> = Queue()
     private var bankers: [Banker] = []
     private var totalCustomerNumber: Int = 0
     private var totalTime: Double = 0
@@ -21,8 +23,12 @@ struct Bank {
     }
     
     mutating func addBanker(_ banker: Banker) {
-        
-        
+        switch banker.bankBusiness {
+        case .deposit:
+            depositBankerQueue.enqueue(banker)
+        case .loan:
+            loanBankerQueue.enqueue(banker)
+        }
         bankers.append(banker)
     }
     
