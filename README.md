@@ -154,8 +154,6 @@
 
 ## 트러블슈팅
 
-### UnitTest 관련 오류: TargetMembership 설정
-
 [UnitTest 관련 오류: TargetMembership 설정](https://github.com/iOS-Woong/ios-bank-manager/wiki/%EA%B8%B0%EC%88%A0%EC%A0%81%EB%8F%84%EC%A0%84-&-%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85#unittest-%EA%B4%80%EB%A0%A8-%EC%98%A4%EB%A5%98-targetmembership-%EC%84%A4%EC%A0%95)
 
 [`Array<Banker>` -> `Queue<Banker>`로 변경](https://github.com/iOS-Woong/ios-bank-manager/wiki/%EA%B8%B0%EC%88%A0%EC%A0%81%EB%8F%84%EC%A0%84-&-%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85#arraybanker---queuebanker%EB%A1%9C-%EB%B3%80%EA%B2%BD)
