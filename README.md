@@ -24,8 +24,6 @@
  |:---:|
  |![](https://i.imgur.com/UXiJMUG.gif)|
 
-
-
 ## 👀 Diagram
 
 ### 🧬 UML
