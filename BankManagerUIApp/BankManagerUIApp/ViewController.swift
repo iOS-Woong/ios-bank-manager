@@ -9,7 +9,6 @@ import UIKit
 class ViewController: UIViewController {
     
     let startTime: Date = Date()
-    let timeLabel123: UILabel = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,64 +46,78 @@ class ViewController: UIViewController {
         buttonHorizontalStackView.topAnchor.constraint(equalTo: safeArea.topAnchor,constant: 20).isActive = true
         buttonHorizontalStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor).isActive = true
         buttonHorizontalStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
-//        buttonHorizontalStackView.bottomAnchor.constraint(equalTo: timeLabel123.topAnchor, constant: 10).isActive = true
-        // 나중에지우기
-//        buttonHorizontalStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 10).isActive = true
         
         //MARK: TimerLabel 구현
-//
-//        let timerLabel: Timer = Timer.scheduledTimer(timeInterval: 0.001,
-//                                                     target: self,
-//                                                     selector: #selector(updateTime),
-//                                                     userInfo: nil,
-//                                                     repeats: true)
+        let timeLabel: UILabel = UILabel()
+        let timer: Timer = Timer.scheduledTimer(timeInterval: 0.001,
+                                                     target: self,
+                                                     selector: #selector(updateTime),
+                                                     userInfo: nil,
+                                                     repeats: true)
         
-        timeLabel123.text = "00:00:00"
-        timeLabel123.textColor = .black
-        timeLabel123.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(timeLabel123)
+        timeLabel.text = "00:00:00"
+        timeLabel.textColor = .black
+        timeLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(timeLabel)
         
-        timeLabel123.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
-        timeLabel123.topAnchor.constraint(equalTo: buttonHorizontalStackView.bottomAnchor, constant: 20).isActive = true
+        timeLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor).isActive = true
+        timeLabel.topAnchor.constraint(equalTo: buttonHorizontalStackView.bottomAnchor, constant: 20).isActive = true
 
         //MARK: BottomStackView 구현
 //
-//        let bottomStackView: UIStackView = UIStackView()
-//        bottomStackView.axis = .horizontal
-//        bottomStackView.translatesAutoresizingMaskIntoConstraints = false
-//        bottomStackView.spacing = 5
-//        bottomStackView.alignment = .fill
-//        bottomStackView.distribution = .fillEqually
+        let bottomStackView: UIStackView = UIStackView()
+        bottomStackView.axis = .horizontal
+        bottomStackView.translatesAutoresizingMaskIntoConstraints = false
+        bottomStackView.spacing = 5
+        bottomStackView.alignment = .fill
+        bottomStackView.distribution = .fillEqually
+        view.addSubview(bottomStackView)
+
+        let greenView: UIView = UIView()
+        greenView.backgroundColor = .systemGreen
+        greenView.translatesAutoresizingMaskIntoConstraints = false
+
+        let greenLabel: UILabel = UILabel()
+        greenLabel.textColor = .white
+        greenLabel.text = "대기중"
+        greenLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        greenLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(greenView)
+        greenView.addSubview(greenLabel)
+
+        let blueView: UIView = UIView()
+        blueView.backgroundColor = .systemBlue
+        greenView.translatesAutoresizingMaskIntoConstraints = false
+
+        let blueLabel: UILabel = UILabel()
+        blueLabel.textColor = .white
+        blueLabel.text = "업무중"
+        blueLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        blueLabel.translatesAutoresizingMaskIntoConstraints = false
+
+
+        view.addSubview(blueView)
+        blueView.addSubview(blueLabel)
+
+        
+        greenView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        blueView.heightAnchor.constraint(equalTo: greenView.heightAnchor).isActive = true
+        greenView.widthAnchor.constraint(equalTo: blueView.widthAnchor).isActive = true
+
+        greenLabel.centerXAnchor.constraint(equalTo: greenView.centerXAnchor).isActive = true
+        greenLabel.centerYAnchor.constraint(equalTo: greenView.centerYAnchor).isActive = true
+        blueLabel.centerXAnchor.constraint(equalTo: blueView.centerXAnchor).isActive = true
+        blueLabel.centerYAnchor.constraint(equalTo: blueView.centerYAnchor).isActive = true
+        
+        
+        bottomStackView.addArrangedSubview(greenView)
+        bottomStackView.addArrangedSubview(blueView)
 //
-//        let greenView: UIView = UIView()
-//        greenView.backgroundColor = .systemGreen
-//
-//        let greenLabel: UILabel = UILabel()
-//        greenLabel.textColor = .white
-//        greenLabel.text = "대기중"
-//
-//        greenView.addSubview(greenLabel)
-//
-//
-//        let blueView: UIView = UIView()
-//        blueView.backgroundColor = .systemBlue
-//
-//        let blueLabel: UILabel = UILabel()
-//        blueLabel.textColor = .white
-//        blueLabel.text = "업무중"
-//
-//        blueView.addSubview(blueLabel)
-//
-//
-//        greenView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-//        blueView.heightAnchor.constraint(equalTo: greenView.heightAnchor).isActive = true
-//        bottomStackView.addArrangedSubview(greenView)
-//        bottomStackView.addArrangedSubview(blueView)
-//
-//        bottomStackView.topAnchor.constraint(equalTo: timeLabel123.bottomAnchor, constant: 10).isActive = true
-//        bottomStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor).isActive = true
-//        bottomStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
-//
+        bottomStackView.topAnchor.constraint(equalTo: timeLabel.bottomAnchor,constant: 10).isActive = true
+        bottomStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor).isActive = true
+        bottomStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
+        
     }
 
     
