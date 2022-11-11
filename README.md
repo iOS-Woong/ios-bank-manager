@@ -11,6 +11,7 @@
 
 
 ## 🌱 팀 소개
+
  |[준호](https://github.com/junho15)|[woong](https://github.com/iOS-Woong)|
  |:---:|:---:|
 | <img width="180px" img style="border: 2px solid lightgray; border-radius: 90px;-moz-border-radius: 90px;-khtml-border-radius: 90px;-webkit-border-radius: 90px;" src="https://i.imgur.com/CeXUOId.png">| <img width="180px" img style="border: 2px solid lightgray; border-radius: 90px;-moz-border-radius: 90px;-khtml-border-radius: 90px;-webkit-border-radius: 90px;" src="https://avatars.githubusercontent.com/u/96489602?v=4">|
@@ -18,6 +19,7 @@
 - `준호`와 `woong` 팀이 만든 은행창구 매니저입니다.
 
 ## ⚒️ 기능 소개
+
  |**ConsoleApp작동**|
  |:---:|
  |![](https://i.imgur.com/UXiJMUG.gif)|
