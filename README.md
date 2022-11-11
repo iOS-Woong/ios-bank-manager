@@ -150,6 +150,46 @@
 
 [GCD를 활용한 동시성 프로그래밍 구현](https://github.com/iOS-Woong/ios-bank-manager/wiki/%EA%B8%B0%EC%88%A0%EC%A0%81%EB%8F%84%EC%A0%84-&-%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85#gcd%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EB%8F%99%EC%8B%9C%EC%84%B1-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EA%B5%AC%ED%98%84)
 
+```swift
+mutating func startBankBusiness() {
+    startTime = Date()
+    let depositSemaphore: DispatchSemaphore = DispatchSemaphore(value: depositBankerQueue.count)
+    let loanSemaphore: DispatchSemaphore = DispatchSemaphore(value: loanBankerQueue.count)
+    let group: DispatchGroup = DispatchGroup()
+    while customerQueue.isEmpty != true {
+        guard let customer: Customer = customerQueue.dequeue() else { return }
+        switch customer.bankBusiness {
+        case .deposit:
+            guard let banker: Banker = self.depositBankerQueue.dequeue() else { return }
+            DispatchQueue.global().async(group: group) {
+                depositSemaphore.wait()
+                banker.processBankingBusiness(of: customer)
+                depositSemaphore.signal()
+            }
+            self.totalCustomerCount += 1
+            self.depositBankerQueue.enqueue(banker)
+        case .loan:
+            guard let banker: Banker = self.loanBankerQueue.dequeue() else { return }
+            DispatchQueue.global().async(group: group) {
+                loanSemaphore.wait()
+                banker.processBankingBusiness(of: customer)
+                loanSemaphore.signal()
+            }
+            self.totalCustomerCount += 1
+            self.loanBankerQueue.enqueue(banker)
+        }
+    }
+    group.wait()
+    endTime = Date()
+    printClosingMessage()
+}
+```
+- 업무 처리는 `DispatchQueue.global().async()` 로 구현하였습니다. 각각의 은행원이 새로운 스레드에서`global()` 다음 작업을 기다리지 않고 업무를 처리할 수 있도록 비동기로 `(async)` 만들어야 했기에 위 방식으로 구현하였습니다.
+
+- `DispatchGroup`를 활용하여 비동기적으로 처리되는 작업들을 그룹으로 묶어, 그룹 단위로 작업 상태를 추적할 수 있는 기능입니다.
+(현재 코드에선 대기중인 모든 작업을 마치고 난 후, 시간을 측정하기위한 종료지점 `endTime` 과 완료 메세지 출력 `printClosingMessage`를 실행시키기 위한 목적으로 `group.wait()`을 활용하였습니다.)
+
+- 메서드에서는 업무별(예금, 대출)로 `depositSemaphore`, `loanSemaphore`를 두어서 각각의 자원에 접근할 수 있는 스레드의 수를 각 은행원의 수만큼 제한하도록 했습니다.
 <br>
 
 ## 트러블슈팅
