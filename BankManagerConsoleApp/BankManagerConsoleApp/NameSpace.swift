@@ -10,7 +10,7 @@ enum NameSpace {
     static let input: String = "입력 : "
     static let wrongInput: String = "다시 입력하세요."
     static let totalTimeFormat: String = "%.2f"
-    static let customerCountRange: ClosedRange<Int> = 10...30
+    static let customerCountRange: ClosedRange<Int> = 10...10
     static let depositBankerCount: Int = 2
     static let loanBankerCount: Int = 1
     
